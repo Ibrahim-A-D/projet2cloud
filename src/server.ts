@@ -33,7 +33,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
   // the endpoint for the todo
   app.get("/filteredimage", async (req, res) => {
     // destruct our path params
-    let image_url = req.query.image_url;
+    let {image_url} = req.query;
 
     if (!image_url) {
       return res.status(400).send('no parameter defined');
@@ -42,22 +42,22 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
       const isUrlValide = image_url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
       if (isUrlValide == null)
         return res.status(400).send(`Inavlid url! Try again with valid url`);
-       else{
-          //call filterImageFromURL(image_url) to filter the image
-          const filteredImage : string = await filterImageFromURL(image_url);
-        if(filteredImage===undefined || filteredImage===null || filteredImage === '')
-          return res.status(400).send(`No image found try again with another url`);
-        else{
-          //deletes any files on the server on finish of the response
-          res.on('finish', function() {
-            deleteLocalFiles([filteredImage]);  
-          });
-          //send the resulting file in the response
-          return res.status(200).sendFile(filteredImage);
+      //  else{
+      //     //call filterImageFromURL(image_url) to filter the image
+      //     const filteredImage : string = await filterImageFromURL(image_url);
+      //   if(filteredImage===undefined || filteredImage===null || filteredImage === '')
+      //     return res.status(400).send(`No image found try again with another url`);
+      //   else{
+      //     //deletes any files on the server on finish of the response
+      //     res.on('finish', function() {
+      //       deleteLocalFiles([filteredImage]);  
+      //     });
+      //     //send the resulting file in the response
+      //     return res.status(200).sendFile(filteredImage);
 
-        }
+      //   }
 
-      }
+      // }
     }
 
   });
