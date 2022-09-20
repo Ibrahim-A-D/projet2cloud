@@ -39,7 +39,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
       return res.status(400).send('no parameter defined');
     } else {
       //validate the image_url query
-      const isUrlValide = image_url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+      const isUrlValide = image_url.match(/^http[^\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gmi));
       if (isUrlValide == null)
         return res.status(400).send(`Inavlid url! Try again with valid url`);
        else{
